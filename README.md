@@ -1,6 +1,6 @@
 # act-real-friends
 
-> Only true friends can talk shit about me
+ Only true friends can talk shit about me
 
 ## Build Setup
 
