@@ -6,7 +6,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr v-for="(user, uid) in users">
+    <tr v-for="(user, uid, index) in users">
       <td>{{user.name}}</td>
       <td v-for="friend in friends(user.friends)">{{friend.name}} - {{friend.department}}</td>
       <td>
@@ -14,15 +14,21 @@
                        :labels="{checked: '승인됨', unchecked: '승인필요'}" :width="75" :height="30"></toggle-button>
       </td>
       <td>
+        <button @click="resetPassword(user.email)">비밀번호 리셋</button>
+      </td>
+      <td>
         <img src="../assets/edit-button.png" class="comment-button" @click="editComment(uid, user.comment)"></img>
         {{user.comment}}
       </td>
     </tr>
-    <section v-show="showCommentBox" class="comment-area" >
+    <section v-show="showCommentBox" class="comment-area">
       <textarea class="comment-text"></textarea>
       <button @click="saveComment">저장</button>
       <button @click="showCommentBox=false">닫기</button>
     </section>
+    <input id="email" placeholder="Email"/>
+    <input id="name" placeholder="Name"/>
+    <button @click="newUser">신규</button>
     </tbody>
   </table>
 </template>
@@ -37,7 +43,8 @@
         users: {},
         keys: [],
         columnNames: ['NAME', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'APPROVED', 'COMMENT'],
-        showCommentBox: false
+        showCommentBox: false,
+        instanceForCreatingUser: null
       }
     },
     methods: {
@@ -98,11 +105,59 @@
 
         firebase.database().ref(uid).update(updates)
         this.showCommentBox = false
+      },
+
+      resetNewUserInput() {
+        this.$el.querySelector('#email').value = ""
+        this.$el.querySelector('#name').value = ""
+      },
+
+      newUser() {
+        var _this = this
+
+        let email = this.$el.querySelector('#email').value
+        let name = this.$el.querySelector('#name').value
+
+        this.instanceForCreatingUser.auth().createUserWithEmailAndPassword(email, 'temporary')
+          .then(user => {
+            console.log("User " + user.uid + " created successfully!");
+            _this.instanceForCreatingUser.auth().signOut();
+
+            let updates = {}
+            updates['/approved'] = false
+            updates['/comment'] = ""
+            updates['/name'] = name
+            updates['/email'] = email
+
+            firebase.database().ref(user.uid).update(updates)
+            _this.resetNewUserInput()
+          })
+          .catch(error => {
+            var errorMessage = error.message;
+            alert(errorMessage)
+          })
+      },
+
+      resetPassword(email) {
+        firebase.auth().sendPasswordResetEmail(email)
+          .then(res => {
+            alert('sent email')
+          })
+          .catch(function (error) {
+            alert('error on sending email')
+          })
       }
     },
 
     beforeMount() {
       this.readData()
+
+      var config = {
+        apiKey: "AIzaSyBIVdVqliAv3kXNEGu3ODp_Zyq5fxJBSL4",
+        authDomain: "act-real-friendz.firebaseapp.com",
+        databaseURL: "https://act-real-friendz.firebaseio.com"
+      }
+      this.instanceForCreatingUser = firebase.initializeApp(config, 'secondary')
     }
   }
 </script>
@@ -143,7 +198,7 @@
   }
 
   img {
-    padding-right : 10px;
+    padding-right: 10px;
   }
 
   .comment-area {
@@ -158,7 +213,7 @@
 
   textarea {
     width: 100%;
-    font-size : 16px;
+    font-size: 16px;
   }
 
 </style>

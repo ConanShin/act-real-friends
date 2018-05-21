@@ -24,7 +24,7 @@
     name: "login",
     data() {
       return {
-        adminId: 'hanjee.so@gmail.com'
+        adminId: 'actreviewers@gmail.com'
       }
     },
 
@@ -45,11 +45,6 @@
             alert(reject.message)
           })
       }
-    },
-
-
-    mounted() {
-
     }
   }
 </script>

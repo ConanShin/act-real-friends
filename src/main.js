@@ -12,12 +12,12 @@ Vue.use(ToggleButton)
 Vue.use(Toasted, {position: 'bottom-center', duration: 1000})
 
 var config = {
-  apiKey: "AIzaSyD5VdD-Sv9Hc4xeCsCeJsvnIucRpaKgnVA",
-  authDomain: "act-real-friends.firebaseapp.com",
-  databaseURL: "https://act-real-friends.firebaseio.com",
-  projectId: "act-real-friends",
-  storageBucket: "act-real-friends.appspot.com",
-  messagingSenderId: "992465206309"
+  apiKey: "AIzaSyBIVdVqliAv3kXNEGu3ODp_Zyq5fxJBSL4",
+  authDomain: "act-real-friendz.firebaseapp.com",
+  databaseURL: "https://act-real-friendz.firebaseio.com",
+  projectId: "act-real-friendz",
+  storageBucket: "act-real-friendz.appspot.com",
+  messagingSenderId: "383017755227"
 };
 
 firebase.initializeApp(config)

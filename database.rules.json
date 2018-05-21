@@ -1,7 +1,7 @@
 {
   "rules": {
-    ".read": "auth.uid === 'UWliWfdIW0POK8hH6jU22qtDNjC2'",
-    ".write": "auth.uid === 'UWliWfdIW0POK8hH6jU22qtDNjC2'",
+    ".read": "auth.uid === 'drfB6ph38RVYuSG9Wcb2L7QPXyl2'",
+    ".write": "auth.uid === 'drfB6ph38RVYuSG9Wcb2L7QPXyl2'",
     "$uid": {
       ".read": "$uid === auth.uid",
       ".write": "$uid === auth.uid"
