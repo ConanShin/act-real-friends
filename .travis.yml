@@ -1,4 +1,4 @@
-  install:
+install:
  - gem install dpl
  - npm install -g firebase-tools
  - npm install
