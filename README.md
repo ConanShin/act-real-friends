@@ -2,20 +2,15 @@
 
  Only true friends can talk shit about me
 
-## Build Setup
+- npm install -g firebase-tools
+- firebase login
 
-``` bash
-# install dependencies
-npm install
+- npm install
+- npm run build
 
-# serve with hot reload at localhost:8080
-npm run dev
+- firebase deploy
 
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
+# offline mode (dev mode)
+- firebase serve
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
