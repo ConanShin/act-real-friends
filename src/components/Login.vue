@@ -21,27 +21,26 @@
   import firebase from 'firebase'
 
   export default {
-    name: "login",
     data() {
       return {
-        adminId: 'actreviewers@gmail.com'
+        ADMIN_ID: 'actreviewers@gmail.com'
       }
     },
 
     methods: {
       login() {
-        const id = document.getElementById('id').value
-        const password = document.getElementById('password').value
+        const id = this.$el.querySelector('#id').value
+        const password = this.$el.querySelector('#password').value
 
         firebase.auth().signInWithEmailAndPassword(id, password)
-          .then((result) => {
-            if (id === this.adminId) {
+          .then(() => {
+            if (id === this.ADMIN_ID) {
               this.$router.push('/admin')
             } else {
               this.$router.push('/friendsList')
             }
           })
-          .catch((reject) => {
+          .catch(reject => {
             alert(reject.message)
           })
       }

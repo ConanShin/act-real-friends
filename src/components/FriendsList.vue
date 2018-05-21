@@ -3,10 +3,10 @@
     <header>
       {{name}}
     </header>
-    <div v-show="!approved&&comment">{{this.comment}}</div>
+    <div v-show="!approved&&comment">{{comment}}</div>
     <section>
-      <header id="notice"></header>
-      <name-card v-for="(user, index) in list" :key='index' :user="user" :approved="approved">
+      <header id="notice">{{noticeText}}</header>
+      <name-card v-for="(user, index) in paddedFriendsList" :key='index' :user="user" :approved="approved">
         <label v-show="!approved" style="line-height: 10px; color: red; margin-left: 20px;" @click="killMe(index)">삭제</label>
       </name-card>
       <img v-show="!approved" @click="addPerson" src="@/assets/add-person.png"/>
@@ -24,7 +24,6 @@
   import firebase from 'firebase'
 
   export default {
-    name: "name-list",
     components: {nameCard},
 
     data: function () {
@@ -32,16 +31,34 @@
         uid: '',
         name: '',
         list: [],
-        approved: true,
-        comment: ''
+        comment: '',
+        approved: true
+      }
+    },
+
+    computed: {
+      paddedFriendsList () {
+        if(this.list.length < 5) {
+          while(this.list.length < 5) {
+            this.list.push({name: '', department: ''})
+          }
+        }
+        return this.list
+      },
+      noticeText () {
+        if(this.approved) {
+          return '아래의 목록으로 평가가 진행됩니다.'
+        } else {
+          return '최소 5명의 평가자를 입력해 주세요.'
+        }
       }
     },
 
     methods: {
-      readData() {
+      readFriendsList() {
         const _this = this
 
-        firebase.auth().onAuthStateChanged(function (user) {
+        firebase.auth().onAuthStateChanged(user => {
           if (user) {
             _this.uid = user.uid
             var userData = firebase.database().ref(_this.uid);
@@ -50,29 +67,17 @@
               _this.name = snapshot.val().name
               _this.list = Object.values(snapshot.val().friends ? snapshot.val().friends : {})
               _this.approved = snapshot.val().approved
-
-              if(_this.list.length < 5) {
-                while(_this.list.length < 5) {
-                  _this.list.push({name: '', department: ''})
-                }
-              }
-
-              if(_this.approved) {
-                document.getElementById('notice').innerText = '아래의 목록으로 평가가 진행됩니다.'
-              } else {
-                document.getElementById('notice').innerText = '최소 5명의 평가자를 입력해 주세요.'
-                _this.comment = snapshot.val().comment
-              }
+              _this.comment = snapshot.val().comment
             });
           } else {
-            console.log("login error")
+            console.log("Invalid access")
           }
         })
       },
 
       addPerson() {
-        if (this.list.length < 10) {
-          this.list.push({name: '', department: ''})
+        if (this.paddedFriendsList.length < 10) {
+          this.paddedFriendsList.push({name: '', department: ''})
         } else {
           this.$toasted.show('10명 이상 넣으시면 곤란합니다')
         }
@@ -85,19 +90,18 @@
         updates['/friends'] = nonEmptyList
 
         firebase.database().ref(this.uid).update(updates).then(function() {
-          _this.readData()
-
+          _this.readFriendsList()
           _this.$toasted.show('저장했따따따따');
         })
       },
 
       killMe(selectedIndex) {
-        this.list = this.list.filter((value, index) => index !== selectedIndex)
+        this.paddedFriendsList = this.paddedFriendsList.filter((value, index) => index !== selectedIndex)
       }
     },
 
     beforeMount() {
-      this.readData()
+      this.readFriendsList()
     }
 
   }

@@ -5,8 +5,8 @@
       <slot></slot>
     </header>
     <template v-if="approved">
-      <input placeholder="이름" v-model="user.name" readonly/>
-      <input placeholder="소속부서" v-model="user.department" readonly/>
+      <span>{{user.name}}</span>
+      <span>{{user.department}}</span>
     </template>
     <template v-else>
       <input placeholder="이름" v-model="user.name"/>
@@ -17,7 +17,6 @@
 
 <script>
   export default {
-    name: "name-card",
     props: ['user', 'approved']
   }
 </script>
@@ -37,7 +36,8 @@
     color: #888888;
   }
 
-  input {
+  input, span {
+    display: inline-block;
     border: 0;
     font-size: 16px;
     width: 144px;
