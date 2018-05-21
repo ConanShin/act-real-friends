@@ -6,7 +6,7 @@ script:
  - npm run build
 
 after_success:
- - firebase deploy --token 1/7bvQxKdZZo-1XddiJKUmC414cynpT0Qiom8FRoaoWtU
+ - dpl --provider=firebase --token=1/7bvQxKdZZo-1XddiJKUmC414cynpT0Qiom8FRoaoWtU --project=act-real-friendz
 
 language: node_js
 node_js: "8.11.1"
