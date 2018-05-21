@@ -14,7 +14,7 @@
                        :labels="{checked: '승인됨', unchecked: '승인필요'}" :width="75" :height="30"></toggle-button>
       </td>
       <td>
-        <button @click="resetPassword(user.email)">비밀번호 리셋</button>
+        <button @click="resetPassword(user.email)">RESET</button>
       </td>
       <td>
         <img src="../assets/edit-button.png" class="comment-button" @click="editComment(uid, user.comment)"></img>
@@ -42,7 +42,7 @@
       return {
         users: {},
         keys: [],
-        columnNames: ['NAME', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'APPROVED', 'COMMENT'],
+        columnNames: ['NAME', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'APPROVED', 'PASSWORD', 'COMMENT'],
         showCommentBox: false,
         instanceForCreatingUser: null
       }
