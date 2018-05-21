@@ -1,4 +1,7 @@
-after_success: "firebase deploy --project act-real-friendz --token 1/7bvQxKdZZo-1XddiJKUmC414cynpT0Qiom8FRoaoWtU"
-install: "npm install -g firebase-tools"
+after_success:
+ - firebase deploy --token 1/7bvQxKdZZo-1XddiJKUmC414cynpT0Qiom8FRoaoWtU"
+install:
+ - npm install -g firebase-tools
+ - npm install
 language: node_js
 node_js: "8.11.1"
