@@ -9,5 +9,8 @@ script:
 after_success:
  - dpl --provider=firebase --token=1/7bvQxKdZZo-1XddiJKUmC414cynpT0Qiom8FRoaoWtU --project=act-real-friendz
 
+deploy:
+ skip_cleanup: true
+
 language: node_js
 node_js: "8.11.1"
