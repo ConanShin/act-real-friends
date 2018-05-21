@@ -70,11 +70,13 @@
         })
       },
 
-
       addPerson() {
-        this.list.push({name: '', department: ''})
+        if (this.list.length < 10) {
+          this.list.push({name: '', department: ''})
+        } else {
+          this.$toasted.show('10명 이상 넣으시면 곤란합니다')
+        }
       },
-
 
       saveFriendsList() {
         const _this = this
